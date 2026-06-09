@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Odliczanie do wyroku</title>
+<style>
+body{margin:0;background:#171311;color:#f3ead8;font-family:Georgia,serif;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.card{width:min(1100px,95vw);padding:30px;background:#201b18;border:4px double #d7b56d;text-align:center}
+.rings{position:relative;width:150px;height:90px;margin:auto}
+.ring{position:absolute;top:10px;width:72px;height:72px;border:7px solid #d7b56d;border-radius:50%}
+.left{left:20px}.right{right:20px}
+.counter{display:flex;gap:15px;justify-content:center;flex-wrap:wrap}
+.box{border:1px solid #d7b56d;padding:15px;min-width:140px}
+.num{font-size:64px;font-weight:bold}
+.lab{color:#d7b56d}
+#late{display:none}
+#late h1{font-size:clamp(50px,8vw,100px);color:#d7b56d;animation:pulse 1s infinite alternate}
+iframe{width:100%;height:600px;border:none}
+@keyframes pulse{from{opacity:.5;transform:scale(1)}to{opacity:1;transform:scale(1.05)}}
+</style>
+</head>
+<body>
+<div class="card">
+
+<div id="countdown">
+<div class="rings">
+<div class="ring left"></div>
+<div class="ring right"></div>
+</div>
+
+<h1>ODLICZANIE DO WYROKU</h1>
+
+<div class="counter">
+<div class="box"><div id="days" class="num">0</div><div class="lab">DNI</div></div>
+<div class="box"><div id="hours" class="num">0</div><div class="lab">GODZINY</div></div>
+<div class="box"><div id="minutes" class="num">0</div><div class="lab">MINUTY</div></div>
+<div class="box"><div id="seconds" class="num">0</div><div class="lab">SEKUNDY</div></div>
+</div>
+
+<p>20.06.2026 godz. 14:00</p>
+</div>
+
+<div id="late">
+<h1>SPÓŹNIŁEŚ SIĘ</h1>
+<iframe src="https://drive.google.com/file/d/1q0Yqmn5frfkppMcolSIgssljwSCU2h1Z/preview" allow="autoplay"></iframe>
+</div>
+
+</div>
+
+<script>
+const target = new Date("2026-06-20T14:00:00+02:00");
+
+const daysEl=document.getElementById("days");
+const hoursEl=document.getElementById("hours");
+const minutesEl=document.getElementById("minutes");
+const secondsEl=document.getElementById("seconds");
+
+function update(){
+ let diff = target - new Date();
+
+ if(diff <= 0){
+   document.getElementById("countdown").style.display="none";
+   document.getElementById("late").style.display="block";
+   return;
+ }
+
+ const days=Math.floor(diff/86400000);
+ diff-=days*86400000;
+
+ const hours=Math.floor(diff/3600000);
+ diff-=hours*3600000;
+
+ const minutes=Math.floor(diff/60000);
+ diff-=minutes*60000;
+
+ const seconds=Math.floor(diff/1000);
+
+ daysEl.textContent=days;
+ hoursEl.textContent=hours;
+ minutesEl.textContent=minutes;
+ secondsEl.textContent=seconds;
+}
+
+update();
+setInterval(update,1000);
+</script>
+
+</body>
+</html>
